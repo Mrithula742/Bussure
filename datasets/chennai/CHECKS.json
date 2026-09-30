@@ -1,0 +1,12 @@
+{
+  "download_date": "2026-09-29",
+  "source": "https://raw.githubusercontent.com/ungalsoththu/ChennaiGTFS/main/data/mtc-gtfs.zip",
+  "sha256": "e4e3d8301b8cf4661c317377f10d3a6c3aa8718fa73580ad97ec22957c7e3539",
+  "basic_reference_checks": {
+    "trips_with_unknown_route": 0,
+    "trips_with_unknown_service": 0,
+    "stop_times_unknown_trip": 0,
+    "stop_times_unknown_stop": 0
+  },
+  "note": "Basic integrity and reference checks only; not full GTFS validation or verification of real schedules."
+}

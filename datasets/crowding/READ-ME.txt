@@ -1,0 +1,55 @@
+BusSure static crowd dataset — SYNTHETIC PROTOTYPE ONLY
+
+WHAT IS IN THE FILE
+3,000 ticket transactions, not 3,000 bus observations. A row can represent 1–3 passengers.
+4575 simulated passenger journeys across 5 selected route entries, 140 dated trip instances and seven service dates (21–27 September 2026). These are simulation dates, not dates of observed passenger travel.
+1,000 CHENNAI_ONE_STYLE rows and 2,000 ETM_STYLE rows are arbitrary test categories. The split is NOT a measured Chennai market share. We have not verified the private schemas of either system.
+Every row is marked SYNTHETIC. No real booking, personal or payment information is used.
+
+WHERE THE REFERENCE INFORMATION COMES FROM
+Route IDs, trip IDs, stop IDs, stop order and listed schedule times: existing files in ../chennai, originally obtained from https://github.com/ungalsoththu/ChennaiGTFS . This is an unofficial community feed, not an MTC-certified timetable. Its identifiers are valid within the downloaded snapshot; current real-world operations have not been independently verified.
+Study reference: https://doi.org/10.1016/j.ijtst.2025.06.006 . This study concerns Chennai electronic ticketing and passenger alighting; it does not provide these synthetic records or validate our generation rules. No claim is made that it used Chennai One.
+Service reference: https://mtcbus.tn.gov.in/Home/facilities confirms Chennai One digital ticketing. It does not supply our transactions or confirm our proposed column names.
+
+HOW IT WAS CREATED
+Reproducible random seed: 20260930. Five different numbered route families with valid all-week service and trips in four windows were selected deterministically from the local feed.
+Morning departures 07:00–09:59 and evening departures 17:00–19:59 have 30 tickets per trip. Afternoon 12:00–14:59 has 13; night 20:00–22:59 has 12. The first 25 peak trip instances receive one extra ticket, producing exactly 3,000 rows. These are test assumptions, not observed demand.
+Peak journeys board in the first third of the stop sequence and leave in the last third, to exercise high-occupancy scenarios. Other journeys use randomly selected boarding and later destination stops. No stop-popularity survey or actual peak-demand calibration was used.
+Party sizes 1, 2, 3 use weights 6:3:1. Candidates are accepted only if every affected route segment stays at or below the assumed total capacity of 60 passengers. This includes seated and standing space conceptually; 60 is a simulation parameter, not a verified capacity for these buses.
+Source labels are shuffled to exactly the agreed split. App-style ticket_time is 0–15 minutes before scheduled boarding; ETM-style ticket_time equals boarding. This is a model assumption, not verified provider behaviour.
+
+HOW TO CALCULATE CROWD
+Group by trip_instance_id (service_date + trip_id), then follow GTFS stop_sequence.
+At each stop subtract passenger_count of tickets with that destination sequence, then add passenger_count of tickets with that boarding sequence. All rows assume successful boarding and exit at the ticket destination. A booking alone would not prove boarding in a real system.
+Occupancy after a stop applies to the segment leaving it. At the final stop occupancy must be zero.
+Optional prototype thresholds: Low <=40% of assumed total capacity; Medium >40% and <=70%; High >70%. These cutoffs are design choices, not official crowding standards. No derived crowd column is repeated on ticket rows, to avoid confusing a transaction with a bus occupancy observation.
+In real integrations, deduplicate any app tickets also recorded by the ETM and account for pass/free-travel records, cancellations and no-shows. This toy dataset has unique, disjoint tickets and no such cases.
+
+COLUMN GUIDE
+ticket_id: unique synthetic transaction identifier.
+data_origin: always SYNTHETIC.
+simulated_ticket_source: proposed source category, not provenance from a real provider.
+service_date, route_id, route_short_name, trip_id, service_id: date and GTFS identifiers.
+trip_instance_id: identifies one dated trip, preventing days being combined.
+time_period: departure time window of the trip, not necessarily time at every stop.
+ticket_time: simulated issuance/booking time in Asia/Kolkata local time.
+boarding_stop_id/name/sequence: origin and ordered position within the trip.
+destination_stop_id/name/sequence: later destination and ordered position.
+scheduled_boarding_time, scheduled_alighting_time: local timestamps derived from the source timetable, not actual observed times.
+passenger_count: passengers represented by that ticket, 1–3.
+assumed_total_capacity: 60 for these demonstration trips.
+boarding_assumption, alighting_assumption: explicit simulation assumptions.
+
+CHECKS
+Exactly 3,000 unique tickets; source split; valid referenced GTFS IDs; calendar dates; increasing stop order; chronological schedule times; nonnegative occupancy at every stop; maximum 60; zero at each trip end. Summary and input file hashes are in validation.json.
+This validates internal consistency only. The dataset can test software behaviour, but cannot establish real Chennai crowd-prediction accuracy. Training and testing on the same simulation rules does not establish real-world performance.
+
+SELECTED ROUTES
+101 R (route_id 23212): Poonamallee TO Thiruvottriyur
+102 (route_id 24079): Island ground Terminus TO Kelambakkam
+104 R (route_id 21083): Tambaram West TO Redhills
+105 (route_id 16821): Siruseri I.T Park TO Tambaram West
+109 R (route_id 23600): Island ground TO  Kovalam
+
+EXPLANATION FOR YOUR TEACHER
+We created 3,000 synthetic ticket records using route, trip and stop references from our Chennai GTFS snapshot. The two source categories represent proposed app and conductor ticket inputs. We documented every generation assumption and checked passenger counts stop by stop. These are demonstration records, not downloaded Chennai One or MTC ETM transactions.

@@ -1,0 +1,64 @@
+{
+  "rows": 3000,
+  "passengers": 4575,
+  "routes": [
+    {
+      "route_id": "23212",
+      "route_short_name": "101 R",
+      "route_long_name": "Poonamallee TO Thiruvottriyur",
+      "route_type": "3",
+      "agency_id": "69"
+    },
+    {
+      "route_id": "24079",
+      "route_short_name": "102",
+      "route_long_name": "Island ground Terminus TO Kelambakkam",
+      "route_type": "3",
+      "agency_id": "69"
+    },
+    {
+      "route_id": "21083",
+      "route_short_name": "104 R",
+      "route_long_name": "Tambaram West TO Redhills",
+      "route_type": "3",
+      "agency_id": "69"
+    },
+    {
+      "route_id": "16821",
+      "route_short_name": "105",
+      "route_long_name": "Siruseri I.T Park TO Tambaram West",
+      "route_type": "3",
+      "agency_id": "69"
+    },
+    {
+      "route_id": "23600",
+      "route_short_name": "109 R",
+      "route_long_name": "Island ground TO  Kovalam",
+      "route_type": "3",
+      "agency_id": "69"
+    }
+  ],
+  "trip_instances": 140,
+  "dates": [
+    "2026-09-21",
+    "2026-09-27"
+  ],
+  "source_counts": {
+    "ETM_STYLE": 2000,
+    "CHENNAI_ONE_STYLE": 1000
+  },
+  "seed": 20260930,
+  "checks": "Valid GTFS references, active service dates, stop ordering, chronological timings, unique tickets, 0..60 occupancy, terminal occupancy zero",
+  "crowd_segment_counts": {
+    "Low": 4315,
+    "Medium": 1016,
+    "High": 1081
+  },
+  "source_sha256": {
+    "routes.txt": "3f933bdd0f64b69359a1eef24cf0a5464494e1affce144da995ce164a17e0028",
+    "trips.txt": "0264fe39cf23ceac6ce096f5bbcfad16c47cc48849ece657b287df392eedfa86",
+    "stops.txt": "24ef742ee8312d27c9474a840330a5fbf271d2bbdd59514309d646cc4ea30c85",
+    "stop_times.txt": "aa80ad6804323964689b4a862c3d8dbcd497c386a9dc305e5f7e4badb4cad3cd",
+    "calendar.txt": "fca05f8f64ff8068da65f03439ff1320b0a5c556e9154b84e34c4f6e7d05a730"
+  }
+}
